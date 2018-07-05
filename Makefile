@@ -44,9 +44,12 @@ class:
 	@echo "=== ready to build helloworld"
 	g++ -v -t $(CLASS_PATH)/helloworld/helloworld.cpp -o $(CLASS_TEMP)/helloworld
 
+	@echo "=== ready to build sizeof_strlen"
+	g++ -v -t $(CLASS_PATH)/sizeof_strlen/sizeof_strlen.cpp -o $(CLASS_TEMP)/sizeof_strlen
+
 main:
 	@echo "=== ready to build main.o"
-	g++ -v -t -c $(BUILD_PATH)/main.cpp -o $(BUILD_TEMP)/main.o
+	g++ -v -t -c $(BUILD_PATH)/main/main.cpp -o $(BUILD_TEMP)/main.o
 
 menu:
 	@echo "=== ready to build menu.o"
@@ -54,7 +57,7 @@ menu:
 
 class1:
 	@echo "=== ready to build class1"
-	#g++ -v -t main.cpp menu/menu_1.cpp -o menu.bzhu_Study
+	#g++ -v -t main/main.cpp menu/menu_1.cpp -o menu.bzhu_Study
 	g++ -v -t $(BUILD_TEMP)/*.o -o $(BUILD_PATH)/class1.btest
 
 clean:

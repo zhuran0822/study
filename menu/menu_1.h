@@ -11,7 +11,7 @@ public:
 	~menu_1();
 
 	char GetClassnumber(void);
-	void ChooseClass(void);
+	char ChooseClass(void);
 
 	int a;
 	int b;

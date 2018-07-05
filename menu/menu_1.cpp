@@ -28,8 +28,12 @@
 #include "menu_1.h"
 #include "../bruce_debug/bruce_debug.h"
 
-#ifndef CLASS_TEMP
-#define CLASS_TEMP /home/bruce/Projects/Study/build_temp/class
+#ifndef CLASS_BIN_HELLOWORLD
+#define CLASS_BIN_HELLOWORLD "/home/bruce/Projects/Study/build_temp/class/helloworld"
+#endif
+
+#ifndef CLASS_BIN_SIZEOF_STRLEN
+#define CLASS_BIN_SIZEOF_STRLEN "/home/bruce/Projects/Study/build_temp/class/sizeof_strlen"
 #endif
 
 menu_1::menu_1(void)
@@ -63,7 +67,8 @@ void menu_1::show_menu_1_1(void)
 		
 		//choose the class number
 		printf("    1. helloworld\n");
-		printf("    2. helloworld\n");
+		printf("    2. sizeof_strlen\n");
+		printf("    Q. EXIT STUDY\n");
 		
 		//
 		for( num = 0; num < 20; num++)
@@ -89,21 +94,33 @@ char menu_1::GetClassnumber()
 	return number_class;
 }
 
-void menu_1::ChooseClass()
+char menu_1::ChooseClass()
 {
 	char number_class = GetClassnumber();
 
 	switch(number_class)
 	{
 		case '1':
-			system("/home/bruce/Projects/Study/build_temp/class/helloworld");
+			printf("ready to run \"helloworld\" ---\n");
+			system(CLASS_BIN_HELLOWORLD);
 			getchar();
 			break;
 
+		case '2':
+			printf("ready to run \"sizeof_strlen\" ---\n");
+			system(CLASS_BIN_SIZEOF_STRLEN);
+			getchar();
+			break;
+
+		case 'q':
+		case 'Q':
+			printf("exit!\n");
+			exit(0);
+
 		default:
-			printf("Warn: wrong number.");
-			return;
+			printf("Warn: wrong number.\n");
+			return 0;
 	}
 
-	return;	
+	return 0;
 }
