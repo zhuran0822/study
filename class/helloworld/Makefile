@@ -1,16 +1,19 @@
 
-TARGETS := clean CHECKDIR class class1
+TARGETS := class
 
-SDK_PATH=$(PWD)
+BIN_NAME=helloworld
+
+SDK_PATH=$(PWD)/../..
 BUILD_TEMP=$(SDK_PATH)/build_temp
-CLASS_PATH=$(SDK_PATH)/class/menu
+CLASS_PATH=$(SDK_PATH)/class/$(BIN_NAME)
+CLASS_FILE := $(CLASS_PATH)/$(BIN_NAME).cpp
 BIN_TEMP=$(BUILD_TEMP)/bin
 
 .PHONY: all $(TARGETS)
 all: $(TARGETS)
 
 CHECKDIR:
-	@echo "=== CHECKDIR ===";
+#	@echo "=== CHECKDIR ===";
 	@if [ ! -d $(BUILD_TEMP) ]; then \
 	{ \
 		echo "War: can not found $(BUILD_TEMP), will creat it. mkdir -p $(BUILD_TEMP);"; \
@@ -31,23 +34,25 @@ CHECKDIR:
 		mkdir -p $(BIN_TEMP); \
 	} \
 	fi
-	
+
 debug:
 	@echo ;
-	@echo "=== just debug ===";
+#	@echo "=== just debug ===";BIN_NAME
+	@echo "BIN_NAME = $(BIN_NAME)";
 	@echo "SDK_PATH = $(SDK_PATH)";
 	@echo "BUILD_TEMP = $(BUILD_TEMP)";
 	@echo "CLASS_PATH = $(CLASS_PATH)";
+	@echo "CLASS_FILE = $(CLASS_FILE)";
 	@echo "BIN_TEMP = $(BIN_TEMP)";
 
-class:
-	@cd class && make ;
-
-class1:
-	@echo "=== ready to build class1 ===";
-#	g++ -v -t $(BIN_TEMP)/*.o -o $(SDK_PATH)/class1.btest;
-	g++ $(BIN_TEMP)/*.o -o $(SDK_PATH)/class1.btest;
+class: 
+	@echo ;
+	@echo "=== ready to build main ===";
+#	g++ -v -t $(CLASS_PATH)/helloworld/main.cpp -o $(BIN_TEMP)/main;
+	g++ $(CLASS_FILE) -o $(BIN_TEMP)/$(BIN_NAME);
+	@echo ;
 
 clean:
-	@echo "=== ready to clean all ===";
-	rm -rf $(BUILD_TEMP) $(SDK_PATH)/*.btest ;
+#	@echo "=== ready to do clean process ===";
+#	@echo "rm -rf $(BUILD_TEMP) $(SDK_PATH)/*.btest ;";
+	rm -rf $(BIN_TEMP)/$(BIN_NAME) ;

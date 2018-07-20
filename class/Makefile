@@ -1,16 +1,17 @@
 
-TARGETS := clean CHECKDIR class class1
+TARGETS := CHECKDIR class
 
-SDK_PATH=$(PWD)
+SDK_PATH=$(PWD)/..
 BUILD_TEMP=$(SDK_PATH)/build_temp
 CLASS_PATH=$(SDK_PATH)/class/menu
 BIN_TEMP=$(BUILD_TEMP)/bin
 
 .PHONY: all $(TARGETS)
-all: $(TARGETS)
+all: $(TARGETS) $(SUB_DIR)
 
 CHECKDIR:
-	@echo "=== CHECKDIR ===";
+#	@echo
+#	@echo "=== CHECKDIR ===";
 	@if [ ! -d $(BUILD_TEMP) ]; then \
 	{ \
 		echo "War: can not found $(BUILD_TEMP), will creat it. mkdir -p $(BUILD_TEMP);"; \
@@ -31,6 +32,15 @@ CHECKDIR:
 		mkdir -p $(BIN_TEMP); \
 	} \
 	fi
+
+class: 
+	@echo ;
+	@echo "=== ready to build SUB_DIR ===" ;
+#-C 参数的含义： -C DIRECTORY, --directory=DIRECTORY  Change to DIRECTORY before doing anything.
+	@cd main && make ;
+	@cd menu && make ;
+	@cd helloworld && make ;
+	@cd sizeof_strlen && make ;
 	
 debug:
 	@echo ;
@@ -40,14 +50,14 @@ debug:
 	@echo "CLASS_PATH = $(CLASS_PATH)";
 	@echo "BIN_TEMP = $(BIN_TEMP)";
 
-class:
-	@cd class && make ;
-
-class1:
-	@echo "=== ready to build class1 ===";
-#	g++ -v -t $(BIN_TEMP)/*.o -o $(SDK_PATH)/class1.btest;
-	g++ $(BIN_TEMP)/*.o -o $(SDK_PATH)/class1.btest;
-
 clean:
-	@echo "=== ready to clean all ===";
-	rm -rf $(BUILD_TEMP) $(SDK_PATH)/*.btest ;
+	@echo ;
+	@echo "=== ready to do clean process ===";
+	cd main && make clean;
+	@echo ;
+	cd menu && make clean;
+	@echo ;
+	cd helloworld && make clean;
+	@echo ;
+	cd sizeof_strlen && make clean;
+	@echo ;
