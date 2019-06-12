@@ -1,5 +1,5 @@
 
-TARGETS := class
+TARGETS := CHECKDIR class
 
 BIN_NAME=sizeof_strlen
 
@@ -7,7 +7,7 @@ SDK_PATH=$(PWD)/../..
 BUILD_TEMP=$(SDK_PATH)/build_temp
 CLASS_PATH=$(SDK_PATH)/class/$(BIN_NAME)
 CLASS_FILE := $(CLASS_PATH)/$(BIN_NAME).cpp
-BIN_TEMP=$(BUILD_TEMP)/bin
+BIN_TEMP=$(BUILD_TEMP)/class/bin
 
 .PHONY: all $(TARGETS)
 all: $(TARGETS)
@@ -47,7 +47,7 @@ debug:
 
 class: 
 	@echo ;
-	@echo "=== ready to build main ===";
+	@echo "=== ready to build $(BIN_NAME) ===";
 #	g++ -v -t $(CLASS_PATH)/helloworld/main.cpp -o $(BIN_TEMP)/main;
 	g++ $(CLASS_FILE) -o $(BIN_TEMP)/$(BIN_NAME);
 	@echo ;

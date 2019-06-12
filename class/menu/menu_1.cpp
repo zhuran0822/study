@@ -25,21 +25,26 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "menu_1.h"
 #include "../bruce_debug/bruce_debug.h"
 
+#ifndef CLASS_BIN_PATH
+#define CLASS_BIN_PATH "/build_temp/class/bin/"
+#endif
+
 #ifndef CLASS_BIN_HELLOWORLD
-#define CLASS_BIN_HELLOWORLD "/home/bruce/Projects/Study/build_temp/class/helloworld"
+#define CLASS_BIN_HELLOWORLD CLASS_BIN_PATH"helloworld"
 #endif
 
 #ifndef CLASS_BIN_SIZEOF_STRLEN
-#define CLASS_BIN_SIZEOF_STRLEN "/home/bruce/Projects/Study/build_temp/class/sizeof_strlen"
+#define CLASS_BIN_SIZEOF_STRLEN CLASS_BIN_PATH"sizeof_strlen"
 #endif
 
 menu_1::menu_1(void)
 {	
 	//brucedebug bdebug;
-	printf("test\n");
+	printf("### test start ###\n");
 //	return;
 }
 
@@ -48,14 +53,23 @@ menu_1::~menu_1(void)
 	return;
 }
 
+void menu_1::check_runPath(void)
+{ 
+    //char buf[80];   
+    getcwd(runPath,sizeof(runPath));   
+    printf("current working directory: %s\n", runPath);     
+}
+
 void menu_1::show_menu_1_1(void)
 {
 	unsigned char num = 0;
 	char number_class = 0;
 
+	check_runPath();
+	sleep(1);
+
 	while(1)
 	{
-
 		system("clear");
 		
 		for( num = 0; num < 20; num++)
@@ -94,22 +108,31 @@ char menu_1::GetClassnumber()
 	return number_class;
 }
 
+void menu_1::FindClassName(char ClassName[100], char *BinName)
+{
+	sprintf(ClassName, "%s%s", runPath, BinName);
+	printf("ClassName = %s\n", ClassName);
+
+	return;
+}
+
 char menu_1::ChooseClass()
 {
+	char ClassName[100];
 	char number_class = GetClassnumber();
 
 	switch(number_class)
 	{
 		case '1':
 			printf("ready to run \"helloworld\" ---\n");
-			system(CLASS_BIN_HELLOWORLD);
-			getchar();
+			FindClassName(ClassName, CLASS_BIN_HELLOWORLD);
+			system(ClassName);
 			break;
 
 		case '2':
 			printf("ready to run \"sizeof_strlen\" ---\n");
-			system(CLASS_BIN_SIZEOF_STRLEN);
-			getchar();
+			FindClassName(ClassName, CLASS_BIN_SIZEOF_STRLEN);
+			system(ClassName);
 			break;
 
 		case 'q':
@@ -121,6 +144,8 @@ char menu_1::ChooseClass()
 			printf("Warn: wrong number.\n");
 			return 0;
 	}
+
+	getchar();
 
 	return 0;
 }

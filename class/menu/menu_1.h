@@ -20,6 +20,9 @@ public:
 
 private:
 	int c;
+	char runPath[80];
+	void check_runPath(void);
+	void FindClassName(char ClassName[100], char *BinName);
 };
 
 #endif

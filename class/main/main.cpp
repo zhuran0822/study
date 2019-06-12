@@ -30,7 +30,7 @@
 
 int main(int argc, char **argv)
 {
-	printf("ready\n");
+	printf("### main ready ###\n");
 	usleep(3);
 
 	menu_1 menu1;

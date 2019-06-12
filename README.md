@@ -9,3 +9,7 @@ make
 
 # how to push the update to github?
 git push origin master
+
+# which setup need be change for vscode?
+"terminal.integrated.fontSize": 16,
+"terminal.integrated.fontFamily": "Ubuntu mono",

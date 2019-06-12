@@ -5,7 +5,7 @@ SDK_PATH=$(PWD)/../..
 CLASS_PATH=$(SDK_PATH)/class
 
 BUILD_TEMP=$(SDK_PATH)/build_temp
-BIN_TEMP=$(BUILD_TEMP)/bin
+BIN_TEMP=$(BUILD_TEMP)/class/bin
 
 .PHONY: all $(TARGETS)
 all: $(TARGETS)

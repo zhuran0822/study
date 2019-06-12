@@ -4,7 +4,7 @@ TARGETS := clean CHECKDIR class class1
 SDK_PATH=$(PWD)
 BUILD_TEMP=$(SDK_PATH)/build_temp
 CLASS_PATH=$(SDK_PATH)/class/menu
-BIN_TEMP=$(BUILD_TEMP)/bin
+BIN_TEMP=$(BUILD_TEMP)/class/bin
 
 .PHONY: all $(TARGETS)
 all: $(TARGETS)
