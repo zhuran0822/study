@@ -1,7 +1,7 @@
 
 TARGETS := CHECKDIR class
 
-BIN_NAME=main
+BIN_NAME=filecheck
 
 SDK_PATH=$(PWD)/../..
 BUILD_TEMP=$(SDK_PATH)/build_temp
@@ -14,6 +14,10 @@ all: $(TARGETS)
 
 CHECKDIR:
 #	@echo "=== CHECKDIR ===";
+	@echo "=== BUILD_TEMP === $(BUILD_TEMP)";
+	@echo "=== CLASS_PATH === $(CLASS_PATH)";
+	@echo "=== BIN_TEMP === $(BIN_TEMP)";
+
 	@if [ ! -d $(BUILD_TEMP) ]; then \
 	{ \
 		echo "War: can not found $(BUILD_TEMP), will creat it. mkdir -p $(BUILD_TEMP);"; \
@@ -49,7 +53,7 @@ class:
 	@echo ;
 	@echo "=== ready to build $(BIN_NAME) ===";
 #	g++ -v -t $(CLASS_PATH)/helloworld/main.cpp -o $(BIN_TEMP)/main;
-	g++ -c $(CLASS_FILE) -o $(BIN_TEMP)/$(BIN_NAME).o;
+	g++ $(CLASS_FILE) -o $(BIN_TEMP)/$(BIN_NAME);
 	@echo ;
 
 clean:

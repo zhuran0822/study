@@ -3,6 +3,7 @@ C/C++ practice summary.
 
 # how to download the source code?
 git clone https://github.com/zhuran0822/study.git
+git checkout bruce_test origin/bruce_test
 
 # how to build them?
 make

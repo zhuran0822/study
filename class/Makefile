@@ -4,7 +4,7 @@ TARGETS := CHECKDIR class
 SDK_PATH=$(PWD)/..
 BUILD_TEMP=$(SDK_PATH)/build_temp
 CLASS_PATH=$(SDK_PATH)/class/menu
-BIN_TEMP=$(BUILD_TEMP)/bin
+BIN_TEMP=$(BUILD_TEMP)/class/bin
 
 .PHONY: all $(TARGETS)
 all: $(TARGETS) $(SUB_DIR)
@@ -41,7 +41,7 @@ class:
 	@cd menu && make ;
 	@cd helloworld && make ;
 	@cd sizeof_strlen && make ;
-	@cd demo_filecheck && make ;
+	@cd filecheck && make ;
 	@cd demo_socket && make ;
 	
 debug:

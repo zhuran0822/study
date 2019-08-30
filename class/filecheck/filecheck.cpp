@@ -1,3 +1,11 @@
+/*
+* Author        : Bruce
+* Version       : 1.0
+* Date          : 08/30/2019
+* Description   : 检查待测试文件（TEST.TXT），从关键字检索，判断这本书的书名——目前仅支持英文版本《支持战争与和平》和《老人与海》的判断
+* Update        : 增加对待检查文件不存在的判断，避免程序段错误
+*/
+
 #include <stdio.h>
 #include <string.h>
 
@@ -9,8 +17,7 @@
 #define LINE_LENGTH 1024
 #define LINE_SPACE_LINE_MAX 100              //连续100空行，判定是文本读完了，不是很精确，大致能用
 
-#define FILENAME "TEST.txt"
-#define FILEPATH "TEST.txt"
+#define FILENAME "./Document/Test/filecheck/TEST.txt"
 
 #define FILE_STYLE_OCEAN "ocean and dream --- A romantic writing style"
 #define FILE_STYLE_WARANDPEACE "warn and peace --- A sympathetic and realistic style of writing"
@@ -222,6 +229,15 @@ int Get_FileSize()
     char temp_space_line = 0;
 
     file = fopen(FILENAME,"r");
+    if (NULL == file)
+    {
+        printf("Error: %s(%d), open the document \"%s\" failed. \n", 
+            __FUNCTION__,
+            __LINE__,
+            FILENAME);
+
+        return -1;
+    }
 
     while (line_number < FILE_CHECK_LINE_MAX)
     {
@@ -257,7 +273,17 @@ int Check_FileStyle_FindTarget(int line_number, char *target)
     int size_line = 0;
     int size_str = 0;
     unsigned int score = 0;
-    file = fopen(FILEPATH, "r");
+
+    file = fopen(FILENAME, "r");
+    if (NULL == file)
+    {
+        printf("Error: %s(%d), open the document \"%s\" failed", 
+            __FUNCTION__,
+            __LINE__,
+            FILENAME);
+
+        return -1;
+    }
 
     //printf("target = %s, line_number = %d .", target, line_number);
     size_str = strlen(target);
@@ -286,37 +312,51 @@ int Check_FileStyle_FindTarget(int line_number, char *target)
     return score;
 }
 
-unsigned int Check_FileStyle_WarAndPeace(int line_number)
+int Check_FileStyle_WarAndPeace(int line_number)
 {
     int i = 0;
     unsigned int score = 0;
-    unsigned int score_temp = 0;
+    int score_temp = 0;
 
     printf("\n\n### Start to %s, line_number = %d #########\n", __FUNCTION__, line_number);
 
     for ( i = 0; i < Style_WarAndPeace_count; i++ )
     {
         score_temp = Check_FileStyle_FindTarget(line_number, Style_WarAndPeace[i]);
-        printf("In the first %d lines, the word %s appears %d times .\n", line_number, Style_WarAndPeace[i], score_temp);
-        score += score_temp;
+        if (-1 == score_temp)
+        {
+            return -1;
+        }
+        else
+        {
+            printf("In the first %d lines, the word %s appears %d times .\n", line_number, Style_WarAndPeace[i], score_temp);
+            score += score_temp;
+        }        
     }
 
     return score;
 }
 
-unsigned int Check_FileStyle_Ocean(int line_number)
+int Check_FileStyle_Ocean(int line_number)
 {
     int i = 0;
     unsigned int score = 0;
-    unsigned int score_temp = 0;
+    int score_temp = 0;
 
     printf("\n\n### Start to %s, line_number = %d #########\n", __FUNCTION__, line_number);
 
     for ( i = 0; i < Style_Ocean_count; i++ )
     {
         score_temp = Check_FileStyle_FindTarget(line_number, Style_Ocean[i]);
-        printf("In the first %d lines, the word %s appears %d times .\n", line_number, Style_Ocean[i], score_temp);
-        score += score_temp;
+        if (-1 == score_temp)
+        {
+            return -1;
+        }
+        else
+        {
+            printf("In the first %d lines, the word %s appears %d times .\n", line_number, Style_Ocean[i], score_temp);
+            score += score_temp;
+        }
     }
 
     return score;
@@ -326,12 +366,32 @@ char Check_FileStyle()
 {
     int i = 0;
     int line_number = 0;
-    unsigned int score_ocean = 0;
-    unsigned int score_warandpeace = 0;
+    int score_ocean = 0;
+    int score_warandpeace = 0;
 
     line_number = Get_FileSize();
+    if (-1 == line_number)
+    {
+        printf("%s(%d)Get file size failed, please check the test document!\n",
+            __FUNCTION__,
+            __LINE__);
+        return -1;
+    }
     score_ocean = Check_FileStyle_Ocean(line_number);
+    if (-1 == score_warandpeace)
+    {
+        printf("%s(%d)check the file Ocean failed, please check the test document!\n",
+            __FUNCTION__,
+            __LINE__);
+        return -1;
+    }
+
     score_warandpeace = Check_FileStyle_WarAndPeace(line_number);
+    if (-1 == score_warandpeace)
+    {
+        printf("check the file WarAndPeace failed, please check the test document!\n");
+        return -1;
+    }
 
     printf("\nThe book %s has %d line<%d words/1 line>, score_ocean = %d, score_warandpeace = %d\n\n",
         FILENAME, line_number, LINE_LENGTH, score_ocean, score_warandpeace);

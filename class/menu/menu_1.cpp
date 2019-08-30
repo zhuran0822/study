@@ -29,16 +29,12 @@
 #include "menu_1.h"
 #include "../bruce_debug/bruce_debug.h"
 
-#ifndef CLASS_BIN_PATH
+#ifndef _CLASS_BIN_PATH_
+#define _CLASS_BIN_PATH_
 #define CLASS_BIN_PATH "/build_temp/class/bin/"
-#endif
-
-#ifndef CLASS_BIN_HELLOWORLD
 #define CLASS_BIN_HELLOWORLD CLASS_BIN_PATH"helloworld"
-#endif
-
-#ifndef CLASS_BIN_SIZEOF_STRLEN
 #define CLASS_BIN_SIZEOF_STRLEN CLASS_BIN_PATH"sizeof_strlen"
+#define CLASS_BIN_DEMO_FILECHECK CLASS_BIN_PATH"filecheck"
 #endif
 
 menu_1::menu_1(void)
@@ -51,6 +47,39 @@ menu_1::menu_1(void)
 menu_1::~menu_1(void)
 {
 	return;
+}
+
+char test()
+{
+
+	printf("111\n");
+}
+
+char SystemRunBinFile(char *BinFile)
+{
+	//char BinFile[100];
+	printf("ready to run \"%s\" ---\n", BinFile);
+	system(BinFile);
+}
+
+char menu_1::Callback_Handle(char (*callback)())
+{
+	callback();
+}
+
+char menu_1::Callback_Handle(char (*callback)(char), char parm1)
+{
+	callback(parm1);
+}
+
+char menu_1::Callback_Handle(char (*callback)(char*), char* parm1)
+{
+	callback(parm1);
+}
+
+char menu_1::Callback_Handle(char (*callback)(char*, char*), char* parm1, char*parm2)
+{
+	callback(parm1, parm2);
 }
 
 void menu_1::check_runPath(void)
@@ -82,6 +111,7 @@ void menu_1::show_menu_1_1(void)
 		//choose the class number
 		printf("    1. helloworld\n");
 		printf("    2. sizeof_strlen\n");
+		printf("    3. filecheck\n");
 		printf("    Q. EXIT STUDY\n");
 		
 		//
@@ -108,31 +138,37 @@ char menu_1::GetClassnumber()
 	return number_class;
 }
 
-void menu_1::FindClassName(char ClassName[100], char *BinName)
+void menu_1::FindBinFile(char BinFile[100], char *BinName)
 {
-	sprintf(ClassName, "%s%s", runPath, BinName);
-	printf("ClassName = %s\n", ClassName);
+	sprintf(BinFile, "%s%s", runPath, BinName);
+	printf("BinFile = %s\n", BinFile);
 
 	return;
 }
 
 char menu_1::ChooseClass()
 {
-	char ClassName[100];
+	char BinFile[100];
 	char number_class = GetClassnumber();
 
 	switch(number_class)
 	{
 		case '1':
 			printf("ready to run \"helloworld\" ---\n");
-			FindClassName(ClassName, CLASS_BIN_HELLOWORLD);
-			system(ClassName);
+			FindBinFile(BinFile, CLASS_BIN_HELLOWORLD);
+			system(BinFile);
 			break;
 
 		case '2':
 			printf("ready to run \"sizeof_strlen\" ---\n");
-			FindClassName(ClassName, CLASS_BIN_SIZEOF_STRLEN);
-			system(ClassName);
+			FindBinFile(BinFile, CLASS_BIN_SIZEOF_STRLEN);
+			system(BinFile);
+			break;
+
+		case '3':
+			FindBinFile(BinFile, CLASS_BIN_DEMO_FILECHECK);
+			Callback_Handle(test);
+			Callback_Handle(SystemRunBinFile, BinFile);
 			break;
 
 		case 'q':
